@@ -1,0 +1,49 @@
+CPU Frequency is based on TV signal frequency, either NTSC or PAL depending on
+the region.
+
+(Not yet sure if deliberate design to keep CPU and PPU in sync, or if the
+crystals are just cheaper...)
+
+NTSC
+
+- 525 scanlines (483 visible)
+- Interleaved, so two cycles required to refresh
+- Refresh cycle is 60/1.001 Hz
+- 227.5 colorburst carrier frequency
+
+So, f = (227.5) * (525 * 60/1.001 / 2)
+      = 315 / 88 Mhz
+      = 3.579545454... MHz
+
+PAL
+- 625 scanlines (576 visible), interleaved
+- 50 Hz refresh cycle
+- 283.75 colorburst carrier frequency
+- Fixed 25 Hz offset to the frequency
+
+So f = (283.75) * (625 * 50 / 2) + 25
+     = 4.43361875 MHz
+
+Notes:
+
+- Why 60/1.001?  The original B&W signals were exactly 60Hz, matching AC power
+  frequency in the US.  But when color was introduced, it was shifted down to
+  "eliminate stationary dot patterns in the difference frequency between sound
+  and color carriers".  (see wikipedia)
+
+  (Something to do with the interference between the sound and color carrier
+  wave signals...)
+
+- Why 525 scanlines?  This had something to do with vacuum tube multivibrators,
+  which were based on divisible ratios within the chains, so the numbers
+  usually involved products of low primes.  Interleaved signals also require an
+  odd number for some reason  (i.e. no 2's in the prime factorisation).
+
+  To get near the desired 500 scanlines, the chosen NTSC breakdown was
+
+      525 = 3 * 5 * 5 * 7
+
+  For similar reasons, the PAL/SECAM choice was 625 = 5 * 5 * 5 * 5.
+
+- Because of the 25 HZ offset to PAL refresh, the effective colorburst carrier
+  frequency is 283.7516, slightly higher than the specification.
